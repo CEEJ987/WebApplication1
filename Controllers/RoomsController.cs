@@ -23,24 +23,26 @@ namespace Lab12.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRoom()
+        public async Task<ActionResult<IEnumerable<Rooms>>> GetRoom()
         {
-          if (_context.Room == null)
+          if (_context.Rooms == null)
           {
               return NotFound();
           }
-            return await _context.Room.ToListAsync();
+            return await _context.Rooms.Include(room => room.readyRooms)
+                .ThenInclude(readyRooms => readyRooms.Hotel)
+                .ToListAsync(); 
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<Rooms>> GetRoom(int id)
         {
-          if (_context.Room == null)
+          if (_context.Rooms == null)
           {
               return NotFound();
           }
-            var room = await _context.Room.FindAsync(id);
+            var room = await _context.Rooms.FindAsync(id);
 
             if (room == null)
             {
@@ -53,7 +55,7 @@ namespace Lab12.Controllers
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, Rooms room)
         {
             if (id != room.ID)
             {
@@ -84,18 +86,19 @@ namespace Lab12.Controllers
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Rooms>> PostRoom(Rooms room)
         {
           if (_context.Room == null)
           {
               return Problem("Entity set 'AsyncInnContext.Room'  is null.");
           }
-            _context.Room.Add(room);
+            _context.Room.Include(room => room);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRoom", new { id = room.ID }, room);
         }
-
+        [HttpPost]
+        public 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRoom(int id)
@@ -104,13 +107,13 @@ namespace Lab12.Controllers
             {
                 return NotFound();
             }
-            var room = await _context.Room.FindAsync(id);
+            var room = await _context.HotelRooms.FindAsync(id);
             if (room == null)
             {
                 return NotFound();
             }
 
-            _context.Room.Remove(room);
+            _context.Room.Include(room => room);
             await _context.SaveChangesAsync();
 
             return NoContent();

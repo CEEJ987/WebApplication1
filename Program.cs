@@ -14,7 +14,9 @@ namespace Lab12
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-
+            builder.Services.AddControllersWithViews().AddJsonOptions(o => {
+                o.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+            });
             /* TODO
             builder.Services.addContext
              */

@@ -23,4 +23,6 @@ A **composite key** is a combination of two or more columns that together form a
 - **Many:Many Relationship**: In a many-to-many relationship, multiple records in one table are associated with multiple records in another table. This is achieved through intermediary tables (junction or linking tables).
 - **1:Many or Many:1 Relationship**: In a 1:Many relationship, one record in a table is associated with multiple records in another table. In a Many:1 relationship, multiple records in one table are associated with a single record in another table. This is the most common type of relationship.
 
-These relationships help organize and connect data in a way that reflects real-world interactions or dependencies.
+### Things I want to know more about:
+- What is the best way to structure schemas to prevent errors?
+- Can we use the same schema for more than one database. If so, How?

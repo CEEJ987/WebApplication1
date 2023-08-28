@@ -43,6 +43,6 @@ namespace Lab12.Data
 
         public DbSet<Lab12.Models.Rooms> Room { get; set; } = default!;
 
-        public DbSet<Lab12.Models.RoomAmenity> roomAmenity { get; set; } = default!;
+        public DbSet<Lab12.Models.RoomAmenity> RoomAmenity { get; set; } = default!;
     }
 }

@@ -16,7 +16,7 @@ namespace Lab12.Models
         //public List<HotelRoom> readyRooms { get; set; }
         //[NotMapped]
        // public Amenity Amenity { get; set; }
-       public List<RoomAmenity> roomAmenities { get; set; }
+       public List<RoomAmenity> RoomAmenities { get; set; }
 
         
     }

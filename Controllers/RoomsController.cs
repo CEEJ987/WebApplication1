@@ -23,18 +23,20 @@ namespace Lab12.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Room>>> GetRoom()
+        public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms()
         {
-          if (_context.Room == null)
+            var rooms = await _context.Room.ToListAsync();
+
+            if (rooms == null || rooms.Count == 0)
           {
               return NotFound();
           }
-            return await _context.Room.ToListAsync();
+            return rooms;
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Room>> GetRoom(int id)
+        public async Task<ActionResult<Rooms>> GetRoom(int id)
         {
           if (_context.Room == null)
           {
@@ -53,7 +55,7 @@ namespace Lab12.Controllers
         // PUT: api/Rooms/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoom(int id, Room room)
+        public async Task<IActionResult> PutRoom(int id, Rooms room)
         {
             if (id != room.ID)
             {
@@ -61,7 +63,7 @@ namespace Lab12.Controllers
             }
 
             _context.Entry(room).State = EntityState.Modified;
-
+             
             try
             {
                 await _context.SaveChangesAsync();
@@ -84,7 +86,7 @@ namespace Lab12.Controllers
         // POST: api/Rooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Room>> PostRoom(Room room)
+        public async Task<ActionResult<Rooms>> PostRoom(Rooms room)
         {
           if (_context.Room == null)
           {
@@ -94,11 +96,12 @@ namespace Lab12.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRoom", new { id = room.ID }, room);
+
         }
 
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRoom(int id)
+        public async Task<ActionResult> DeleteRoom(int id)
         {
             if (_context.Room == null)
             {
@@ -118,7 +121,7 @@ namespace Lab12.Controllers
 
         private bool RoomExists(int id)
         {
-            return (_context.Room?.Any(e => e.ID == id)).GetValueOrDefault();
+            return _context.Room.Any(e => e.ID == id);
         }
     }
 }

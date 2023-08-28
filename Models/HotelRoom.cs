@@ -12,5 +12,11 @@ namespace Lab12.Models
         public int HotelID { get; set; }
         [Required]
         public double Price { get; set; }
+        public Hotel Hotel { get; set; }
+        [Required]
+        public Rooms Room { get; set; }
+
+
+
     }
 }

@@ -17,5 +17,6 @@ namespace Lab12.Models
         public string State { get; set; }
         [Required]
         public string Phone { get; set; }
+        public List<HotelRoom> HotelRooms { get; set; }
     }
 }

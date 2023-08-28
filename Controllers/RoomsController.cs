@@ -23,26 +23,26 @@ namespace Lab12.Controllers
 
         // GET: api/Rooms
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Rooms>>> GetRoom()
+        public async Task<ActionResult<IEnumerable<Rooms>>> GetRooms()
         {
-          if (_context.Rooms == null)
+            var rooms = await _context.Room.ToListAsync();
+
+            if (rooms == null || rooms.Count == 0)
           {
               return NotFound();
           }
-            return await _context.Rooms.Include(room => room.readyRooms)
-                .ThenInclude(readyRooms => readyRooms.Hotel)
-                .ToListAsync(); 
+            return rooms;
         }
 
         // GET: api/Rooms/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Rooms>> GetRoom(int id)
         {
-          if (_context.Rooms == null)
+          if (_context.Room == null)
           {
               return NotFound();
           }
-            var room = await _context.Rooms.FindAsync(id);
+            var room = await _context.Room.FindAsync(id);
 
             if (room == null)
             {
@@ -63,7 +63,7 @@ namespace Lab12.Controllers
             }
 
             _context.Entry(room).State = EntityState.Modified;
-
+             
             try
             {
                 await _context.SaveChangesAsync();
@@ -92,28 +92,28 @@ namespace Lab12.Controllers
           {
               return Problem("Entity set 'AsyncInnContext.Room'  is null.");
           }
-            _context.Room.Include(room => room);
+            _context.Room.Add(room);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetRoom", new { id = room.ID }, room);
+
         }
-        [HttpPost]
-        public 
+
         // DELETE: api/Rooms/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRoom(int id)
+        public async Task<ActionResult> DeleteRoom(int id)
         {
             if (_context.Room == null)
             {
                 return NotFound();
             }
-            var room = await _context.HotelRooms.FindAsync(id);
+            var room = await _context.Room.FindAsync(id);
             if (room == null)
             {
                 return NotFound();
             }
 
-            _context.Room.Include(room => room);
+            _context.Room.Remove(room);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -121,7 +121,7 @@ namespace Lab12.Controllers
 
         private bool RoomExists(int id)
         {
-            return (_context.Room?.Any(e => e.ID == id)).GetValueOrDefault();
+            return _context.Room.Any(e => e.ID == id);
         }
     }
 }

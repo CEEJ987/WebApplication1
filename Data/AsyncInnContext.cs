@@ -1,6 +1,5 @@
 ﻿using Lab12.Models;
 using Microsoft.EntityFrameworkCore;
-
 namespace Lab12.Data
 {
     public class AsyncInnContext: DbContext
@@ -35,7 +34,7 @@ namespace Lab12.Data
             modelBuilder.Entity<RoomAmenity>().HasData(new RoomAmenity
             { ID = 1, AmenityID = 1, RoomID = 1});
             modelBuilder.Entity<HotelRoom>().HasData(new HotelRoom
-            { ID = 1, HotelID = 1, RoomID = 1, Price = 100.99});
+            { ID = 1, HotelID = 1, RoomID = 1, Price = 100.99,});
         }
 
         public DbSet<Lab12.Models.Hotel> Hotel { get; set; } = default!;
@@ -43,5 +42,7 @@ namespace Lab12.Data
         public DbSet<Lab12.Models.Amenity> Amenity { get; set; } = default!;
 
         public DbSet<Lab12.Models.Rooms> Room { get; set; } = default!;
+
+        public DbSet<Lab12.Models.RoomAmenity> roomAmenity { get; set; } = default!;
     }
 }

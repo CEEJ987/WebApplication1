@@ -14,7 +14,7 @@ namespace Lab12.Models
         public double Price { get; set; }
         public Hotel Hotel { get; set; }
         [Required]
-        public Rooms Rooms { get; set; }
+        public Rooms Room { get; set; }
 
 
 

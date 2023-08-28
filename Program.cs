@@ -3,6 +3,12 @@ using Lab12.Models.Interfaces;
 using Lab12.Models.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+
 
 namespace Lab12
 {
@@ -11,6 +17,15 @@ namespace Lab12
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Async Inn",
+                    Version = "v1",
+                });
+            });
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -23,7 +38,7 @@ namespace Lab12
             builder.Services.AddDbContext<AsyncInnContext>(options =>
                 options.UseSqlServer(
                     builder.Configuration
-                    .GetConnectionString("DefaultConnection")));
+                    .GetConnectionString("LocalConnection")));
 
             builder.Services.AddTransient<IHotel, HotelService>();
 
@@ -39,18 +54,9 @@ namespace Lab12
             app.UseAuthorization();
 
             app.MapControllerRoute(
-                name: "default",
+                name: "Lab26ECommerce",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            //https://localhost:44391/Hotel/CheckIn/
-            //https://website/Hotel/CheckOut
-            //https://website/Hotel/
-
-            /*
-             * 
-             * 
-            
-             */
 
             app.Run();
         }

@@ -10,7 +10,7 @@ namespace Lab12.Models
         public int RoomID { get; set; }
         [Required]
         public int AmenityID { get; set; }
-        public Rooms Rooms { get; set; }
+        public Rooms Room { get; set; }
 
         public Amenity Amenity { get; set;}
     }
